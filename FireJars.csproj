@@ -334,8 +334,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Particle\FireJarImpactVfxBehavior.cs" />
+    <Compile Include="Patches\EquipmentStackPatch.cs" />
     <Compile Include="Patches\PricePatches.cs" />
-    <Compile Include="Patches\TradeAndConsumptionPatches.cs" />
+    <Compile Include="Patches\EconomyInjector.cs" />
+    <Compile Include="Settings\EquipmentStackApplier.cs" />
+    <Compile Include="Settings\ItemDefinitionApplier.cs" />
     <Compile Include="Settings\SettingsUtils.cs" />
     <Compile Include="Settings\FireJarsSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -344,7 +347,10 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="XMLs\firejar.xml" />
+    <Content Include="XMLs\firejar_slingammo.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
