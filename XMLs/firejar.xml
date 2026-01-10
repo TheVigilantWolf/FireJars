@@ -3,6 +3,8 @@
   <Item id="firejar"
         name="{=1CPdu9K0}Fire Jar"
         is_merchandise="true"
+		item_category="throwing_weapons"
+		tier_override="5"
 		culture="Culture.neutral_culture"
         body_name="bo_projectile_rock"
         holster_body_name="bo_axe_short"
@@ -10,7 +12,7 @@
         holster_mesh_with_weapon="stone_holster"
 		flying_mesh="firejar"
         mesh="firejar"
-        value="1000"
+        value="3000"
         weight="0.05"
         appearance="1"
         Type="Thrown"
@@ -52,4 +54,6 @@
     </ItemComponent>
     <Flags />
   </Item>
+
+
 </Items>
