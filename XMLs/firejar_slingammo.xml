@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Items>
   <Item
 		id="sling_firejarammo"
@@ -46,4 +46,6 @@
 			Stealth="false"
 			ForceAttachOffHandPrimaryItemBone="true" />
 	</Item>
+
+
 </Items>
