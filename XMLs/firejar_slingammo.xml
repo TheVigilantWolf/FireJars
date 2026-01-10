@@ -1,21 +1,21 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Items>
-	<Item
-		  id="sling_firejarammo"
-		  name="{=1CPdu9K0}Pack of Sling-Fire Jars"
-		  is_merchandise="true"
-		  body_name="bo_sling_ammo"
-		  holster_body_name="bo_axe_short"
-		  flying_mesh="sling_ammo_flying"
-		  mesh="sling_ammo"
-		  tier_override="1"
-		  holster_mesh="stone_holster"
-		  holster_mesh_with_weapon="stone_holster"
-		  weight="0.1"
-		  appearance="0.1"
-		  value="1500"
-		  Type="SlingStones"
-		  item_holsters="throwing_stone:throwing_stone_2">
+  <Item
+		id="sling_firejarammo"
+		name="{=1CPdu9K0}Pack of Sling-Fire Jars"
+		is_merchandise="true"
+		body_name="bo_sling_ammo"
+		holster_body_name="bo_axe_short"
+		flying_mesh="sling_ammo_flying"
+		mesh="sling_ammo"
+		tier_override="1"
+		holster_mesh="stone_holster"
+		holster_mesh_with_weapon="stone_holster"
+		weight="0.1"
+		appearance="0.1"
+		value="1500"
+		Type="SlingStones"
+		item_holsters="throwing_stone:throwing_stone_2">
 		<ItemComponent>
 			<Weapon
 				weapon_class="SlingStone"
@@ -46,6 +46,4 @@
 			Stealth="false"
 			ForceAttachOffHandPrimaryItemBone="true" />
 	</Item>
-
-
 </Items>
