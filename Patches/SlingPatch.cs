@@ -2,61 +2,84 @@
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 
-namespace FireJars.Patches
+namespace FireJars
 {
-    internal static class SlingAiUtil
+    internal static class SlingAi
     {
-        internal static bool HasSlingLauncher(Agent a)
+        // Tune this. Start at 50-60 like you wanted.
+        internal const float DesiredRangeMeters = 60f;
+
+        internal static bool HasSlingLauncherAndAmmo(Agent agent)
         {
-            if (a?.Equipment == null) return false;
+            if (agent == null) return false;
+            var eq = agent.Equipment;
+            if (eq == null) return false;
 
-            for (int i = (int)EquipmentIndex.WeaponItemBeginSlot; i < (int)EquipmentIndex.NumAllWeaponSlots; i++)
+            bool hasLauncher = false;
+            bool hasAmmo = false;
+
+            for (EquipmentIndex idx = EquipmentIndex.WeaponItemBeginSlot; idx < EquipmentIndex.NumAllWeaponSlots; idx++)
             {
-                var w = a.Equipment[(EquipmentIndex)i];
-                if (w.IsEmpty) continue;
+                MissionWeapon mw = eq[idx];
+                if (mw.IsEmpty) continue;
 
-                var u = w.CurrentUsageItem;
-                if (u != null && u.WeaponClass == WeaponClass.Sling)
+                var item = mw.Item;
+                if (item?.Weapons == null) continue;
+
+                foreach (var w in item.Weapons)
+                {
+                    if (w == null) continue;
+
+                    // Launcher
+                    if (w.WeaponClass == WeaponClass.Sling)
+                        hasLauncher = true;
+
+                    // Ammo
+                    if (w.WeaponClass == WeaponClass.SlingStone && mw.Amount > 0)
+                        hasAmmo = true;
+                }
+
+                if (hasLauncher && hasAmmo)
                     return true;
             }
 
             return false;
         }
 
-        // Returns true if the agent has a real thrown weapon OTHER than sling ammo.
-        internal static bool HasNonSlingThrown(Agent a)
+        internal static bool HasAnyNonSlingThrown(Agent agent)
         {
-            if (a?.Equipment == null) return false;
+            if (agent == null) return false;
+            var eq = agent.Equipment;
+            if (eq == null) return false;
 
-            for (int i = (int)EquipmentIndex.WeaponItemBeginSlot; i < (int)EquipmentIndex.NumAllWeaponSlots; i++)
+            for (EquipmentIndex idx = EquipmentIndex.WeaponItemBeginSlot; idx < EquipmentIndex.NumAllWeaponSlots; idx++)
             {
-                var w = a.Equipment[(EquipmentIndex)i];
-                if (w.IsEmpty) continue;
+                MissionWeapon mw = eq[idx];
+                if (mw.IsEmpty) continue;
 
-                var u = w.CurrentUsageItem;
-                if (u == null) continue;
+                var item = mw.Item;
+                if (item?.Weapons == null) continue;
 
-                // Engine definition: ranged + consumable => thrown (from MissionWeapon.GatherInformationFromWeapon)
-                if (u.IsRangedWeapon && u.IsConsumable)
+                foreach (var w in item.Weapons)
                 {
-                    // Ignore sling ammo so slingmen don't become "throwers"
-                    if (u.WeaponClass == WeaponClass.SlingStone)
-                        continue;
+                    if (w == null) continue;
 
-                    // OPTIONAL: if your sling ammo is authored as WeaponClass.Stone, uncomment this.
-                    // if (u.WeaponClass == WeaponClass.Stone) continue;
+                    // Thrown definition in native is basically: ranged + consumable.
+                    // We want to ignore SlingStone here, but keep everything else.
+                    if (w.IsRangedWeapon && w.IsConsumable)
+                    {
+                        if (w.WeaponClass != WeaponClass.SlingStone)
+                            return true;
+                    }
 
-                    return true;
-                }
-
-                // Also catch classic thrown classes explicitly
-                switch (u.WeaponClass)
-                {
-                    case WeaponClass.Javelin:
-                    case WeaponClass.ThrowingAxe:
-                    case WeaponClass.ThrowingKnife:
-                    case WeaponClass.Stone:
-                        return true;
+                    switch (w.WeaponClass)
+                    {
+                        case WeaponClass.Javelin:
+                        case WeaponClass.ThrowingAxe:
+                        case WeaponClass.ThrowingKnife:
+                        case WeaponClass.Stone:
+                            return true;
+                    }
                 }
             }
 
@@ -64,44 +87,80 @@ namespace FireJars.Patches
         }
     }
 
-    /// <summary>
-    /// Key behavior fix:
-    /// If an agent has a sling launcher and no other thrown weapons,
-    /// report HasThrownCached=false so the AI doesn't treat them as "throwers/skirmishers".
-    /// </summary>
-    [HarmonyPatch(typeof(Agent), nameof(Agent.HasThrownCached), MethodType.Getter)]
-    internal static class Sling_HasThrownCached_Prefix
+    // 1) Make sling troops count as ranged (the “bow troop” classification gate).
+    [HarmonyPatch(typeof(Agent), "get_IsRangedCached")]
+    internal static class Agent_IsRangedCached_SlingPrefix
     {
-        static bool Prefix(Agent __instance, ref bool __result)
+        private static bool Prefix(Agent __instance, ref bool __result)
         {
-            if (!SlingAiUtil.HasSlingLauncher(__instance))
-                return true; // vanilla
-
-            // If they also carry actual thrown weapons, keep vanilla behavior.
-            if (SlingAiUtil.HasNonSlingThrown(__instance))
-                return true; // vanilla
-
-            __result = false;
-            return false; // override
-        }
-    }
-
-    /// <summary>
-    /// Classification fix:
-    /// Sling carriers count as ranged, even if they spawn holding a sword.
-    /// </summary>
-    [HarmonyPatch(typeof(Agent), nameof(Agent.IsRangedCached), MethodType.Getter)]
-    internal static class Sling_IsRangedCached_Prefix
-    {
-        static bool Prefix(Agent __instance, ref bool __result)
-        {
-            if (SlingAiUtil.HasSlingLauncher(__instance))
+            if (SlingAi.HasSlingLauncherAndAmmo(__instance))
             {
                 __result = true;
-                return false; // override
+                return false; // skip native
             }
+            return true;
+        }
+    }
 
-            return true; // vanilla
+    // 2) Prevent sling-only troops from being treated as throwers/skirmishers.
+    [HarmonyPatch(typeof(Agent), "get_HasThrownCached")]
+    internal static class Agent_HasThrownCached_SlingPrefix
+    {
+        private static bool Prefix(Agent __instance, ref bool __result)
+        {
+            if (!SlingAi.HasSlingLauncherAndAmmo(__instance))
+                return true;
+
+            // If they ALSO have real thrown weapons, don’t override vanilla.
+            if (SlingAi.HasAnyNonSlingThrown(__instance))
+                return true;
+
+            __result = false;
+            return false; // skip native
+        }
+    }
+
+    // 3) (Optional but usually necessary) Clamp the AI’s missile range values upward.
+    // This only affects what AI *thinks* its range envelope is.
+    [HarmonyPatch(typeof(Agent), nameof(Agent.GetMissileRange))]
+    internal static class Agent_GetMissileRange_SlingPrefix
+    {
+        private static bool Prefix(Agent __instance, ref float __result)
+        {
+            if (SlingAi.HasSlingLauncherAndAmmo(__instance))
+            {
+                __result = SlingAi.DesiredRangeMeters;
+                return false;
+            }
+            return true;
+        }
+    }
+
+    [HarmonyPatch(typeof(Agent), "get_MissileRangeAdjusted")]
+    internal static class Agent_MissileRangeAdjusted_SlingPrefix
+    {
+        private static bool Prefix(Agent __instance, ref float __result)
+        {
+            if (SlingAi.HasSlingLauncherAndAmmo(__instance))
+            {
+                __result = SlingAi.DesiredRangeMeters;
+                return false;
+            }
+            return true;
+        }
+    }
+
+    [HarmonyPatch(typeof(Agent), "get_MaximumMissileRange")]
+    internal static class Agent_MaximumMissileRange_SlingPrefix
+    {
+        private static bool Prefix(Agent __instance, ref float __result)
+        {
+            if (SlingAi.HasSlingLauncherAndAmmo(__instance))
+            {
+                __result = SlingAi.DesiredRangeMeters;
+                return false;
+            }
+            return true;
         }
     }
 }

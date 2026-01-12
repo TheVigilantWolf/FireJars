@@ -2,7 +2,7 @@ using HarmonyLib;
 using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.Core;
 
-namespace FireJars.Patches
+namespace FireJars
 {
     [HarmonyPatch(typeof(TownMarketData), "GetPrice", new[] { typeof(EquipmentElement), typeof(TaleWorlds.CampaignSystem.Party.MobileParty), typeof(bool), typeof(TaleWorlds.CampaignSystem.Party.PartyBase) })]
     internal static class TownMarketDataGetPricePatch

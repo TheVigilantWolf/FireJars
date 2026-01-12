@@ -84,10 +84,7 @@ namespace FireJars
             }
         }
     }
-}
 
-namespace FireJars.Patches
-{
     [HarmonyPatch(typeof(EquipmentElement), nameof(EquipmentElement.GetModifiedStackCountForUsage))]
     internal static class EquipmentElementGetModifiedStackCountForUsagePatch
     {

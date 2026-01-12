@@ -8,7 +8,7 @@ using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.ObjectSystem;
 
-namespace FireJars.Patches
+namespace FireJars
 {
     internal static class EconomyInjector
     {

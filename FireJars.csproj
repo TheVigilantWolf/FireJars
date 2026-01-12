@@ -343,6 +343,36 @@
     <Compile Include="Settings\SettingsUtils.cs" />
     <Compile Include="Settings\FireJarsSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Source\Agent.cs" />
+    <Compile Include="Source\AgentDrivenProperties.cs" />
+    <Compile Include="Source\BattleAgentLogic.cs" />
+    <Compile Include="Source\BehaviorCharge.cs" />
+    <Compile Include="Source\BehaviorFireFromInfantryCover.cs" />
+    <Compile Include="Source\BehaviorScreenedSkirmish.cs" />
+    <Compile Include="Source\BehaviorSkirmish.cs" />
+    <Compile Include="Source\BehaviorTacticalCharge.cs" />
+    <Compile Include="Source\CommonAIComponent.cs" />
+    <Compile Include="Source\DrivenProperty.cs" />
+    <Compile Include="Source\Equipment.cs" />
+    <Compile Include="Source\FiringOrder.cs" />
+    <Compile Include="Source\Formation.cs" />
+    <Compile Include="Source\FormationAI.cs" />
+    <Compile Include="Source\FormationQuerySystem.cs" />
+    <Compile Include="Source\HumanAIComponent.cs" />
+    <Compile Include="Source\ItemObject.cs" />
+    <Compile Include="Source\Mission.cs" />
+    <Compile Include="Source\MissionCombatantsLogic.cs" />
+    <Compile Include="Source\MissionCombatMechanicsHelper.cs" />
+    <Compile Include="Source\MissionEquipment.cs" />
+    <Compile Include="Source\MissionWeapon.cs" />
+    <Compile Include="Source\OrderController.cs" />
+    <Compile Include="Source\OrderType.cs" />
+    <Compile Include="Source\QueryLibrary.cs" />
+    <Compile Include="Source\Team.cs" />
+    <Compile Include="Source\TeamAIComponent.cs" />
+    <Compile Include="Source\Threat.cs" />
+    <Compile Include="Source\WeaponComponent.cs" />
+    <Compile Include="Source\WeaponComponentData.cs" />
     <Compile Include="SubModule.cs" />
   </ItemGroup>
   <ItemGroup>
