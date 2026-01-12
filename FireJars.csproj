@@ -361,6 +361,7 @@
     <Compile Include="Source\Team.cs" />
     <Compile Include="Source\TeamAIComponent.cs" />
     <Compile Include="Source\Threat.cs" />
+    <Compile Include="Source\WeaponComponentData.cs" />
     <Compile Include="SubModule.cs" />
   </ItemGroup>
   <ItemGroup>
