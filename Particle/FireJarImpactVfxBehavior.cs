@@ -9,6 +9,7 @@ namespace FireJars
     public class FireJarImpactVfxBehavior : MissionLogic
     {
         private const string FireJarItemId = "firejar";
+        private const string SlingAmmoItemId = "sling_firejarammo";
         private const string ImpactParticleName = "firejarboom";
 
         private readonly Dictionary<int, ItemObject> _missileItems = new Dictionary<int, ItemObject>();
@@ -70,7 +71,7 @@ namespace FireJars
             if (item == null)
                 item = attacker.WieldedWeapon.Item;
 
-            if (item == null || item.StringId != FireJarItemId)
+            if (item == null || (item.StringId != FireJarItemId && item.StringId != SlingAmmoItemId))
                 return;
 
             MatrixFrame frame = MatrixFrame.Identity;

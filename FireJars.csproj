@@ -333,15 +333,34 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dismount\ForceDismountBehavior.cs" />
     <Compile Include="Particle\FireJarImpactVfxBehavior.cs" />
-    <Compile Include="Patches\EquipmentStackPatch.cs" />
     <Compile Include="Patches\PricePatches.cs" />
     <Compile Include="Patches\EconomyInjector.cs" />
-    <Compile Include="Settings\EquipmentStackApplier.cs" />
-    <Compile Include="Settings\ItemDefinitionApplier.cs" />
+    <Compile Include="Settings\ImplementSettings\EquipmentStackApplier.cs" />
+    <Compile Include="Settings\ImplementSettings\ItemDefinitionApplier.cs" />
     <Compile Include="Settings\SettingsUtils.cs" />
     <Compile Include="Settings\FireJarsSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Source\Agent.cs" />
+    <Compile Include="Source\BattleAgentLogic.cs" />
+    <Compile Include="Source\BehaviorCharge.cs" />
+    <Compile Include="Source\BehaviorFireFromInfantryCover.cs" />
+    <Compile Include="Source\BehaviorScreenedSkirmish.cs" />
+    <Compile Include="Source\BehaviorSkirmish.cs" />
+    <Compile Include="Source\BehaviorTacticalCharge.cs" />
+    <Compile Include="Source\FiringOrder.cs" />
+    <Compile Include="Source\Formation.cs" />
+    <Compile Include="Source\FormationAI.cs" />
+    <Compile Include="Source\FormationQuerySystem.cs" />
+    <Compile Include="Source\HumanAIComponent.cs" />
+    <Compile Include="Source\Mission.cs" />
+    <Compile Include="Source\OrderController.cs" />
+    <Compile Include="Source\OrderType.cs" />
+    <Compile Include="Source\QueryLibrary.cs" />
+    <Compile Include="Source\Team.cs" />
+    <Compile Include="Source\TeamAIComponent.cs" />
+    <Compile Include="Source\Threat.cs" />
     <Compile Include="SubModule.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -351,6 +370,7 @@
     <Content Include="XMLs\firejar.xml" />
     <Content Include="XMLs\firejar_slingammo.xml" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

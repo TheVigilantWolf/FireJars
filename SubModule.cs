@@ -18,7 +18,16 @@ namespace FireJars
         {
             base.OnGameStart(game, gameStarterObject);
             ItemDefinitionApplier.ApplyAll();
-            EquipmentStackApplier.ApplyToHero(Hero.MainHero);
+
+            try
+            {
+                if (gameStarterObject is TaleWorlds.CampaignSystem.CampaignGameStarter && Hero.MainHero != null)
+                    EquipmentStackApplier.ApplyToHero(Hero.MainHero);
+            }
+            catch
+            {
+                // ignore in modes without a main hero (e.g., Custom Battle)
+            }
         }
 
         // This is the piece that spawns impact particle in missions (battles/sieges/etc.)
@@ -26,8 +35,19 @@ namespace FireJars
         {
             base.OnMissionBehaviorInitialize(mission);
             ItemDefinitionApplier.ApplyAll();
-            EquipmentStackApplier.ApplyToHero(Hero.MainHero);
+
+            try
+            {
+                if (Hero.MainHero != null)
+                    EquipmentStackApplier.ApplyToHero(Hero.MainHero);
+            }
+            catch
+            {
+                // ignore if no main hero in this game mode
+            }
+
             mission.AddMissionBehavior(new FireJarImpactVfxBehavior());
+            mission.AddMissionBehavior(new FireJarKnockOffBehavior());
         }
     }
 }

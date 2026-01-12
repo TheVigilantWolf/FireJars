@@ -17,25 +17,33 @@ namespace FireJars
         [SettingPropertyGroup("Sling Ammo")]
         public int SlingAmmoStackAmount { get; set; } = 10;
 
-        [SettingPropertyFloatingInteger("Sling Ammo Damage %", 50f, 200f, valueFormat: "{0:0}%", Order = 1, RequireRestart = false, HintText = "Damage multiplier for Sling ammo. Vanilla damage: 20.")]
+        [SettingPropertyInteger("Sling Ammo Damage %", 1, 500, valueFormat: "{0}", Order = 1, RequireRestart = false, HintText = "Damage multiplier for Sling ammo. Vanilla damage: 20.")]
         [SettingPropertyGroup("Sling Ammo")]
-        public float SlingAmmoDamagePercent { get; set; } = 100f;
+        public int SlingAmmoDamagePercent { get; set; } = 100;
 
-        [SettingPropertyFloatingInteger("Sling Ammo Price %", 25f, 300f, valueFormat: "{0:0}%", Order = 2, RequireRestart = false, HintText = "Price multiplier for Sling ammo. Vanilla value: 1500.")]
+        [SettingPropertyInteger("Sling Ammo Price %", 25, 300, valueFormat: "{0}", Order = 2, RequireRestart = false, HintText = "Price multiplier for Sling ammo. Vanilla value: 1500.")]
         [SettingPropertyGroup("Sling Ammo")]
-        public float SlingAmmoPricePercent { get; set; } = 100f;
+        public int SlingAmmoPricePercent { get; set; } = 100;
 
         [SettingPropertyInteger("Fire Jar Stack Amount", 1, 20, valueFormat: "{0}", Order = 10, RequireRestart = false, HintText = "Sets Fire Jar stack size. Vanilla default: 4.")]
         [SettingPropertyGroup("Fire Jar")]
         public int FireJarStackAmount { get; set; } = 4;
 
-        [SettingPropertyFloatingInteger("Fire Jar Damage %", 50f, 200f, valueFormat: "{0:0}%", Order = 11, RequireRestart = false, HintText = "Damage multiplier for Fire Jars. Vanilla damage: 32.")]
+        [SettingPropertyInteger("Fire Jar Damage %", 1, 500, valueFormat: "{0}", Order = 11, RequireRestart = false, HintText = "Damage multiplier for Fire Jars. Vanilla damage: 32.")]
         [SettingPropertyGroup("Fire Jar")]
-        public float FireJarDamagePercent { get; set; } = 100f;
+        public int FireJarDamagePercent { get; set; } = 100;
 
-        [SettingPropertyFloatingInteger("Fire Jar Price %", 25f, 300f, valueFormat: "{0:0}%", Order = 12, RequireRestart = false, HintText = "Price multiplier for Fire Jars. Vanilla value: 1000.")]
+        [SettingPropertyInteger("Fire Jar Price %", 25, 300, valueFormat: "{0}", Order = 12, RequireRestart = false, HintText = "Price multiplier for Fire Jars. Vanilla value: 1000.")]
         [SettingPropertyGroup("Fire Jar")]
-        public float FireJarPricePercent { get; set; } = 100f;
+        public int FireJarPricePercent { get; set; } = 100;
+
+        [SettingPropertyBool("Dismount Riders", RequireRestart = false, Order = 15, HintText = "If enabled, fire jar impacts will knock riders off their mounts.")]
+        [SettingPropertyGroup("Fire Jar")]
+        public bool DismountRiders { get; set; } = true;
+
+        [SettingPropertyBool("Dismount Riders", RequireRestart = false, Order = 15, HintText = "If enabled, fire jar sling ammo impacts will knock riders off their mounts.")]
+        [SettingPropertyGroup("Sling Ammo")]
+        public bool DismountSlingRiders { get; set; } = true;
 
         [SettingPropertyDropdown("Fire Jar Culture", Order = 20, RequireRestart = false, HintText = "Restricts town stock behavior to this culture. 'All' applies to all towns.")]
         [SettingPropertyGroup("Fire Jar")]
