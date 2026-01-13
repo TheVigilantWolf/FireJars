@@ -33,6 +33,8 @@ namespace FireJars
             ApplyValue(SlingAmmoId, settings.SlingAmmoPricePercent);
         }
 
+        // Note: No global revert currently used by this mod; settings changes are applied on game start/mission init.
+
         // Stack count overrides
         private static void ApplyStacks(string itemId, int desired)
         {

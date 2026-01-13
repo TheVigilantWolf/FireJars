@@ -2,8 +2,6 @@ using HarmonyLib;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.CampaignSystem;
-using TaleWorlds.Library;
-using TaleWorlds.Localization;
 
 namespace FireJars
 {
@@ -12,17 +10,6 @@ namespace FireJars
         protected override void OnSubModuleLoad()
         {
             base.OnSubModuleLoad();
-
-            try
-            {
-                InformationManager.DisplayMessage(new InformationMessage(
-                    new TextObject("{=FJ_SubmoduleLoaded}FireJars: SubModule loaded (Harmony PatchAll will run)").ToString(),
-                    Colors.Green));
-            }
-            catch
-            {
-            }
-
             new Harmony("FireJars.Mod").PatchAll();
         }
 
